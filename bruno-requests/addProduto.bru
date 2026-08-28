@@ -1,0 +1,21 @@
+meta {
+  name: addProduto
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/produto
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 10,
+    "description" : "",
+    "quantity" : 25,
+    "price" : 2.50,
+    "category" : "Acessórios"
+  }
+}

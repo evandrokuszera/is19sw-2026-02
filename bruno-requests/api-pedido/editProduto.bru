@@ -1,0 +1,20 @@
+meta {
+  name: editProduto
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:8080/produto/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "description": "IPhone 15",
+      "quantity": 15,
+      "price": 6500,
+      "category": "Smartphone"
+    }
+}

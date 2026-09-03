@@ -45,4 +45,30 @@ public class ProdutoController {
         return "Produto cadastrado com sucesso.";
     }
 
+    @PutMapping(path="/{id}")
+    public void update(@PathVariable(name="id") Long idProduto, @RequestBody Produto produto) {
+        for (Produto p : this.produtos){
+            if (p.getId().equals(idProduto)){
+                p.setCategory(produto.getCategory());
+                p.setDescription(produto.getDescription());
+                p.setQuantity(produto.getQuantity());
+                p.setPrice(produto.getPrice());
+                break;
+            }
+        }
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public String delete(@PathVariable(name="id") Long idProduto){
+        Produto produtoRemover = this.produtos.stream()
+                .filter(p->p.getId().equals(idProduto))
+                .findFirst()
+                .orElse(null);
+        if (produtoRemover != null){
+            this.produtos.remove(produtoRemover);
+            return "Produto removido com sucesso.";
+        }
+        return "Produto não encontrado";
+    }
+
 }

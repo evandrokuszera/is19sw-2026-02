@@ -1,0 +1,20 @@
+meta {
+  name: deleteProduto
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:8080/produto/1
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+      "description": "IPhone 15",
+      "quantity": 15,
+      "price": 6500,
+      "category": "Smartphone"
+    }
+}

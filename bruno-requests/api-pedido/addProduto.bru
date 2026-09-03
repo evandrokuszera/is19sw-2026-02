@@ -1,19 +1,19 @@
 meta {
-  name: listProduto
+  name: addProduto
   type: http
-  seq: 3
+  seq: 1
 }
 
-get {
+post {
   url: http://localhost:8080/produto
-  body: none
+  body: json
   auth: none
 }
 
 body:json {
   {
     "id": 10,
-    "description" : "Cabo HDMI",
+    "description" : "Cabo USB",
     "quantity" : 25,
     "price" : 2.50,
     "category" : "Acessórios"

@@ -1,0 +1,21 @@
+meta {
+  name: getProduto
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:8080/produto/22
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "id": 10,
+    "description" : "Cabo HDMI",
+    "quantity" : 25,
+    "price" : 2.50,
+    "category" : "Acessórios"
+  }
+}

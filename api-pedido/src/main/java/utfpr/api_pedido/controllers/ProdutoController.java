@@ -1,5 +1,7 @@
 package utfpr.api_pedido.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import utfpr.api_pedido.models.Produto;
 
@@ -22,53 +24,57 @@ public class ProdutoController {
 
 
     @GetMapping
-    public List<Produto> getAll(){
-        return this.produtos;
+    public ResponseEntity<List<Produto>> getAll(){
+        return ResponseEntity.ok(this.produtos);
     }
 
     @GetMapping("/{id}")
-    public Produto getOne(@PathVariable Long id){
+    public ResponseEntity<Produto> getOne(@PathVariable Long id){
         for (Produto p : this.produtos){
             if (p.getId() == id){
-               return p;
+               return ResponseEntity.ok(p);
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
     @PostMapping
-    public String add(@RequestBody Produto produto){
+    public ResponseEntity<String> add(@RequestBody Produto produto){
         if (produto.getDescription() == "" || produto.getPrice() < 0){
-            return "Descrição ou preço inválidos!";
+            return ResponseEntity.badRequest().body("Descrição ou preço inválidos!");
         }
         this.produtos.add(produto);
-        return "Produto cadastrado com sucesso.";
+        return ResponseEntity.created(null).body("Produto cadastrado com sucesso.");
     }
 
     @PutMapping(path="/{id}")
-    public void update(@PathVariable(name="id") Long idProduto, @RequestBody Produto produto) {
+    public ResponseEntity<String> update(@PathVariable(name="id") Long idProduto, @RequestBody Produto produto) {
         for (Produto p : this.produtos){
             if (p.getId().equals(idProduto)){
                 p.setCategory(produto.getCategory());
                 p.setDescription(produto.getDescription());
                 p.setQuantity(produto.getQuantity());
                 p.setPrice(produto.getPrice());
-                break;
+                String msg = """                        
+                        {"msg": "Produto cadastrado com sucesso"}                        
+                        """;
+                return ResponseEntity.ok(msg);
             }
         }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping(path = "/{id}")
-    public String delete(@PathVariable(name="id") Long idProduto){
+    public ResponseEntity<String> delete(@PathVariable(name="id") Long idProduto){
         Produto produtoRemover = this.produtos.stream()
                 .filter(p->p.getId().equals(idProduto))
                 .findFirst()
                 .orElse(null);
         if (produtoRemover != null){
             this.produtos.remove(produtoRemover);
-            return "Produto removido com sucesso.";
+            return ResponseEntity.ok("Produto removido com sucesso.");
         }
-        return "Produto não encontrado";
+        return ResponseEntity.notFound().build();
     }
 
 }

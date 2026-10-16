@@ -1,0 +1,26 @@
+meta {
+  name: getProdutoFaixaPreco
+  type: http
+  seq: 6
+}
+
+get {
+  url: http://localhost:8080/produto/faixa-preco?min=100&max=500
+  body: none
+  auth: none
+}
+
+params:query {
+  min: 100
+  max: 500
+}
+
+body:json {
+  {
+    "id": 10,
+    "description" : "Cabo HDMI",
+    "quantity" : 25,
+    "price" : 2.50,
+    "category" : "Acessórios"
+  }
+}

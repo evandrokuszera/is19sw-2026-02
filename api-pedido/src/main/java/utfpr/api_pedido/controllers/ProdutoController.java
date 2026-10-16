@@ -1,6 +1,8 @@
 package utfpr.api_pedido.controllers;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,12 @@ public class ProdutoController {
             produtoDTOs.add( toProdutoDTO(p) );
         }
         return ResponseEntity.ok(produtoDTOs);
+    }
+
+    @GetMapping("/paginacao")
+    public ResponseEntity<Page<ProdutoDTO>> getAllPageable(Pageable pageable){
+        Page<Produto> produtoPage = this.produtoRepository.findAll(pageable);
+        return ResponseEntity.ok(produtoPage.map(this::toProdutoDTO));
     }
 
     @GetMapping("/{id}")
@@ -79,6 +87,16 @@ public class ProdutoController {
         this.produtoRepository.delete(produtoFromDB);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/faixa-preco")
+    public ResponseEntity<List<ProdutoDTO>> getProdutoByPrice(@RequestParam double min, @RequestParam double max){
+        List<Produto> produtos = this.produtoRepository.findByPriceBetween(min, max);
+        List<ProdutoDTO> produtoDTOS = new ArrayList<>();
+        for (Produto p : produtos){
+            produtoDTOS.add( toProdutoDTO(p) );
+        }
+        return ResponseEntity.ok(produtoDTOS);
     }
 
     // --------------------------------------------------------------------

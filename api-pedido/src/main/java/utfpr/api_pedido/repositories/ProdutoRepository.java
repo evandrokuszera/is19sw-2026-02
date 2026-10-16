@@ -11,4 +11,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
     public List<Produto> findByCategory(String category);
 
+    public List<Produto> findByPriceBetween(double min, double max);
+
 }

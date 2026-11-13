@@ -1,0 +1,22 @@
+meta {
+  name: calcularFrete
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8081/fretes
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    
+    
+    "cep": "00660000",
+    "orderAmount":510.00
+  
+    
+  }
+}

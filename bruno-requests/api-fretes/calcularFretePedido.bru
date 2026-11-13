@@ -1,0 +1,22 @@
+meta {
+  name: calcularFretePedido
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/pedidos/3/frete/85660000
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    
+    
+    "cep": "85660000",
+    "orderAmount":900.00
+  
+    
+  }
+}

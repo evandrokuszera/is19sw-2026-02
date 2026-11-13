@@ -1,0 +1,18 @@
+meta {
+  name: addItemPedido
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/pedidos/3/items
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "produtoId": 4,
+    "quantity": 1
+  }
+}

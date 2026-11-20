@@ -17,3 +17,10 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+  rabbitmq:
+    host: leopard-01.lmq.cloudamqp.com
+    username: rirylrgp
+    password: 2YiojiTbncaRTopayCSbFRke_wjf2fRY # revelar a senha no site CloudAMQP
+    port: 5672
+    virtual-host: rirylrgp

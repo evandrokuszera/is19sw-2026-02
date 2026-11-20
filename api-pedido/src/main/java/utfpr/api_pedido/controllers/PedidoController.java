@@ -13,6 +13,7 @@ import utfpr.api_pedido.models.Produto;
 import utfpr.api_pedido.repositories.ItemPedidoRepository;
 import utfpr.api_pedido.repositories.PedidoRepository;
 import utfpr.api_pedido.repositories.ProdutoRepository;
+import utfpr.api_pedido.service.PagamentoService;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,7 @@ public class PedidoController {
     private PedidoRepository pedidoRepository;
     private ProdutoRepository produtoRepository;
     private ItemPedidoRepository itemPedidoRepository;
+    private PagamentoService pagamentoService;
 
     // RestClient para permitir comunicação entre os microserviços
     private RestClient restClient = RestClient
@@ -30,10 +32,11 @@ public class PedidoController {
 
     public PedidoController(PedidoRepository pedidoRepository,
                             ProdutoRepository produtoRepository,
-                            ItemPedidoRepository itemPedidoRepository) {
+                            ItemPedidoRepository itemPedidoRepository, PagamentoService pagamentoService) {
         this.pedidoRepository = pedidoRepository;
         this.produtoRepository = produtoRepository;
         this.itemPedidoRepository = itemPedidoRepository;
+        this.pagamentoService = pagamentoService;
     }
 
     @PostMapping
@@ -116,5 +119,25 @@ public class PedidoController {
         // Retorna informações do pedido atualizado.
         return ResponseEntity.ok(pedido);
     }
+
+
+
+
+    // -------------------------------------------------------------------
+    // Integração com serviço API-PAGAMENTO
+    // -------------------------------------------------------------------
+
+    @GetMapping("/{id}/pagamento")
+    public ResponseEntity<Pedido> pagamento(@PathVariable Long id){
+
+        Pedido pedido = this.pedidoRepository.findById(id).orElse(null);
+        if (pedido == null) return ResponseEntity.notFound().build();
+
+        this.pagamentoService.sendPagamentoRequest(pedido);
+        return ResponseEntity.ok(pedido);
+    }
+
+
+
 
 }
